@@ -3,7 +3,6 @@ import z from "zod";
 const MAX_RESULTS = 1;
 const TOOL_SEARCH = "search";
 const ACTOR_BASE_URL = "https://rag-web-browser.apify.actor/search";
-const APIFY_TOKEN = "apify_api_UKqDfNkl4CO9HQ1Tb0a51x4L4CnNgm3jAYcb";
 
 const WebBrowserArgsSchema = z.object({
   query: z
