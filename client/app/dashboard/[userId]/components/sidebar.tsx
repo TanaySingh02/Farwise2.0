@@ -77,7 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           const href = user?.id
             ? `/dashboard/${user.id}/${item.path}`
             : `/dashboard/${item.path}`;
-          const active = pathname.startsWith(href);
+          const active = pathname === href;
 
           return (
             <Tooltip key={item.id}>

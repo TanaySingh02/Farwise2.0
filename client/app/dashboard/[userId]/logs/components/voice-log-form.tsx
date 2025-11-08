@@ -13,13 +13,11 @@ import { Button } from "@/components/ui/button";
 interface VoiceLogFormProps {
   setSessionStarted: React.Dispatch<React.SetStateAction<boolean>>;
   roomInstance: Room;
-  cropId: string;
 }
 
 export const VoiceLogForm: React.FC<VoiceLogFormProps> = ({
   setSessionStarted,
   roomInstance,
-  cropId,
 }) => {
   const { user } = useUser();
   const [isConnecting, setIsConnecting] = useState(false);
@@ -34,7 +32,7 @@ export const VoiceLogForm: React.FC<VoiceLogFormProps> = ({
         await axiosIns.post("/api/logs/create/token", {
           roomName,
           userId: user?.id,
-          cropId,
+          cropId: "5d26aad9-293b-4361-9296-7e01aec29e47",
           // primaryLanguage: "hindi",
         });
 

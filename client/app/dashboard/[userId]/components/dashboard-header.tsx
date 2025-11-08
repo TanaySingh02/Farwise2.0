@@ -1,13 +1,10 @@
-import Image from "next/image";
+import React from "react";
 import { cn } from "@/lib/utils";
-import { useUser } from "@clerk/nextjs";
-import { Search, Menu } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useSocketStore } from "@/zustand/store";
+import { Bell, Search, Menu } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "@/components/ui/skeleton";
-import { NotificationBell } from "./notification-bell";
-import { fetchNotifications } from "@/hooks/notifications-api-hook";
+import Image from "next/image";
 
 interface DashboardHeaderProps {
   onMenuClick: () => void;
@@ -17,50 +14,6 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   onMenuClick,
 }) => {
   const { user, isLoaded } = useUser();
-  const { socket, initializeSocket, isConnected } = useSocketStore();
-  const [hasNewNotification, setHasNewNotification] = useState(false);
-
-  const userId = user?.id;
-
-  const {
-    data: notifications,
-    isLoading,
-    refetch,
-  } = fetchNotifications(userId!);
-
-  useEffect(() => {
-    if (userId && !socket) {
-      const newSocket = initializeSocket();
-
-      newSocket.on("connect", () => {
-        console.log("Connected to server for real-time notifications");
-      });
-    }
-  }, [userId, socket, initializeSocket]);
-
-  useEffect(() => {
-    if (socket && userId) {
-      const handleNewNotification = (data: {
-        type: string;
-        message: string;
-        farmerId: string;
-      }) => {
-        // console.log("New notification received:", data);
-        refetch();
-        setHasNewNotification(true);
-        setTimeout(() => {
-          setHasNewNotification(false);
-        }, 3000);
-      };
-
-      socket.on(`notification:${userId}`, handleNewNotification);
-
-      return () => {
-        socket.off(`notification:${userId}`, handleNewNotification);
-      };
-    }
-  }, [socket, userId, refetch]);
-
   return (
     <header className="bg-card border-b border-border px-6 lg:px-8 py-4 flex items-center justify-between sticky top-0 z-30">
       <Button
@@ -85,16 +38,10 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           className="bg-transparent outline-none text-foreground placeholder:text-muted-foreground flex-1"
         />
       </div>
-
-      <div className="flex items-center gap-6">
-        <NotificationBell
-          notifications={notifications}
-          isLoading={isLoading}
-          userId={userId}
-          hasNewNotification={hasNewNotification}
-          onNotificationClick={() => setHasNewNotification(false)}
-        />
-
+      <div className="flex items-center gap-4">
+        <Button variant="ghost" size="icon" className="w-10 h-10 rounded-lg">
+          <Bell size={20} />
+        </Button>
         {isLoaded ? (
           <div className="flex items-center gap-3">
             <span className="text-sm text-muted-foreground">

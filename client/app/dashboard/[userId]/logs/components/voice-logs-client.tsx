@@ -1,18 +1,10 @@
 "use client";
+import { Heading } from "@/components/heading";
+import { useUserStore } from "@/zustand/store";
 import React from "react";
 import { LogsSection } from "./logs-section";
-import { useUserStore } from "@/zustand/store";
-import { Heading } from "@/components/heading";
 
-interface VoiceLogsClientProps {
-  userId: string;
-  cropId: string;
-}
-
-export const VoiceLogsClient: React.FC<VoiceLogsClientProps> = ({
-  userId,
-  cropId,
-}) => {
+export const VoiceLogsClient = () => {
   const { user } = useUserStore();
 
   if (!user) {
@@ -36,7 +28,7 @@ export const VoiceLogsClient: React.FC<VoiceLogsClientProps> = ({
         subheading="Manage your personal logs and suggestions."
       />
       <div className="space-y-8">
-        <LogsSection userId={userId} cropId={cropId} />
+        <LogsSection />
       </div>
     </>
   );

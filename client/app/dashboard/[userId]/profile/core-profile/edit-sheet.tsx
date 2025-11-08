@@ -94,6 +94,7 @@ export const CoreProfileEditSheet = () => {
         userId: user.id,
         data: {
           ...data,
+          educationLevel: data.educationLevel || null,
         },
       },
       {
